@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
+
+* {
+    background-color: #000000;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 50px;
+    color: lightseagreen;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: 60px 60px 60px 60px 60px;
+    grid-template-rows: 60px 60px 60px 60px 60px 60px;
+    gap: 20px;
+    justify-content: center;
+}
+
+.cell {
+    background-color: lightpink;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 850;
+    text-transform: capitalize;
+    padding-top: 6px;
+}
+
+.button-div {
+    text-align: center;
+}
+
+#button {
+    background-color: lightgray;
+    color: #000000;
+    margin: 40px;
+    padding: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
