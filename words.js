@@ -1,4 +1,4 @@
-const wordList = [
+export const wordList = [
     "aback",
     "abase",
     "abate",
