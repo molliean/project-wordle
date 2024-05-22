@@ -84,33 +84,58 @@ function submitGuess() {
     // if word is not in wordList array, display error message
     if (!wordList.includes(currentGuess.toLowerCase())) {
         alert('Not a valid word');
-        //currentLetterIndex = 0;
         //reset current guess
     } else if (currentGuess === secretWord) {
         alert('You win!');
-    } else if (wordList.includes(currentGuess.toLowerCase()) && currentGuessIndex > 5) {
+    } else if (wordList.includes(currentGuess.toLowerCase()) && currentGuessIndex < 6) {
         processGuess(currentGuess);
-        // include currentGuessIndex++;
-        // include currentLetterIndex = 0;
+        currentGuessIndex++;
+        currentLetterIndex = 0;
     }
 }
+
+console.log(guessesArray);
 
 function processGuess(guess) {
     // separate single strings into arrays of letters
     const secretWordArray = secretWord.split('');
-    const guessArray = currentGuess.split('');
-    // create a new array with 5 empty slots 
+    const guessArray = guess.split('');
+    // create a new array with 5 empty slots to be filled with 'green' 'yellow' or 'gray'
     const feedback = Array(5).fill('');
-    // check for correct positions using .forEach to loop
+    // check letters using .forEach loop
     guessArray.forEach((letter, index) => {
         if (letter === secretWordArray[index]) {
-            feedback[index].push('correct-position');
+            feedback[index] = 'green';
             secretWordArray[index] = null;
         }
+    })
+    guessArray.forEach((letter, index) => {
+        if (feedback[index] === '') {
+            if (secretWordArray.includes(letter)) {
+                feedback[index] = 'yellow';
+                secretWordArray[index] = null;
+            } else {
+                feedback[index] = 'gray';
+            }
+        }
     });
-    
+    console.log(feedback);
+    updateColors(feedback);
 };
 
-console.log(guessesArray);
+function updateColors(feedback){
+    const colorsArray = feedback;
+    colorsArray.forEach((color, index) => {
+        const tileElement = document.querySelector(`.cell[data-row="${currentGuessIndex}"][data-col="${index}"]`);
+        if(color === 'green'){
+            tileElement.classList.add('green');
+        } else if(color === 'yellow'){
+            tileElement.classList.add('yellow');
+        } else {
+            tileElement.classList.add('gray');
+        }
+    });
+}
 
-// updateColors() function
+
+//resetGuess
