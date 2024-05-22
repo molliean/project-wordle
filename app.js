@@ -27,33 +27,32 @@ import { wordList } from './words.js';
 let secretWord = getRandomWord();
 function getRandomWord() {
     const randomWord = Math.floor(Math.random() * wordList.length);
-    return wordList[randomWord];
+    return wordList[randomWord].toUpperCase();
 }
 console.log(secretWord);
 
 
-let maxGuesses = 6;
+//let maxGuesses = 6;
 
 // Initialize a 2D array with 6 rows and 5 columns using Array.from() method
-// () => Array(5).fill('') is a function that creates a subarray of 5 elements
-let guesses = Array.from({ length: 6 }, () => Array(5).fill(''));
+// () => Array(5).fill('') creates a subarray of 5 elements
+let guessesArray = Array.from({ length: 6 }, () => Array(5).fill(''));
 let currentGuessIndex = 0;
 let currentLetterIndex = 0;
 
-// Add event listener to the entire document so it captures input no matter where user clicks
-// handleKeyPress is a function that will be called whenever event occurs
+// Add event listener to the entire document 
+// handleKeyPress called whenever event occurs
 document.addEventListener('keydown', handleKeyPress);
+const validLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function handleKeyPress(e) {
-    // convert all letter inputs to upper case and establish list of valid letters
+    // convert letter inputs to upper case and establish list of valid letters
     const key = e.key.toUpperCase();
-    const validLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
     // checks if value is a valid letter and if there is room in the guess
     if (validLetters.includes(key) && currentLetterIndex < 5) {
         // updates guesses array with value of key pressed
-        guesses[currentGuessIndex][currentLetterIndex] = key;
-        // calls renderTile function with current row and col indices + letter pressed
+        guessesArray[currentGuessIndex][currentLetterIndex] = key;
+        // calls renderTile function with current row and col indices + key
         renderTile(currentGuessIndex, currentLetterIndex, key);
         // increments letter count. must be last in this sequence bc it affects the index passed into render function
         currentLetterIndex++;
@@ -61,7 +60,7 @@ function handleKeyPress(e) {
         // decrements letter count, clears letter in guesses array
         currentLetterIndex--;
         // sets current index to empty string
-        guesses[currentGuessIndex][currentLetterIndex] = '';
+        guessesArray[currentGuessIndex][currentLetterIndex] = '';
         // calls renderTile function with an empty string for letter instead of key value
         renderTile(currentGuessIndex, currentLetterIndex, '');
     } else if (key === 'ENTER' && currentLetterIndex === 5) {
@@ -71,7 +70,7 @@ function handleKeyPress(e) {
 }
 
 function renderTile(rowIndex, colIndex, letter) {
-    // selects html element with class .cell and current data-row and data-col attributes
+    // selects html element with class .cell + current data-row and data-col attributes
     const tileElement = document.querySelector(`.cell[data-row="${rowIndex}"][data-col="${colIndex}"]`)
     // renders content of tile in the DOM
     tileElement.textContent = letter;
@@ -79,21 +78,39 @@ function renderTile(rowIndex, colIndex, letter) {
 
 function submitGuess() {
     // combines letters in first row to a single string
-    const currentGuess = guesses[currentGuessIndex].join('');
+    const currentGuess = guessesArray[currentGuessIndex].join('');
     console.log(`submitted guess: ${currentGuess}`);
 
     // if word is not in wordList array, display error message
     if (!wordList.includes(currentGuess.toLowerCase())) {
         alert('Not a valid word');
         //currentLetterIndex = 0;
-        //renderTile(currentGuessIndex, currentLetterIndex, '');
-        return;
+        //reset current guess
     } else if (currentGuess === secretWord) {
-
+        alert('You win!');
+    } else if (wordList.includes(currentGuess.toLowerCase()) && currentGuessIndex > 5) {
+        processGuess(currentGuess);
+        // include currentGuessIndex++;
+        // include currentLetterIndex = 0;
     }
-    else if (currentGuessIndex > 5) {
-        //
-    }
-
-    currentGuessIndex++;
 }
+
+function processGuess(guess) {
+    // separate single strings into arrays of letters
+    const secretWordArray = secretWord.split('');
+    const guessArray = currentGuess.split('');
+    // create a new array with 5 empty slots 
+    const feedback = Array(5).fill('');
+    // check for correct positions using .forEach to loop
+    guessArray.forEach((letter, index) => {
+        if (letter === secretWordArray[index]) {
+            feedback[index].push('correct-position');
+            secretWordArray[index] = null;
+        }
+    });
+    
+};
+
+console.log(guessesArray);
+
+// updateColors() function
