@@ -32,6 +32,7 @@ h1 {
     font-weight: 850;
     text-transform: capitalize;
     padding-top: 6px;
+    transition: 0.5s;
 }
 
 .button-div {
