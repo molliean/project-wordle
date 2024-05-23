@@ -11,7 +11,7 @@ h1 {
     font-weight: 400;
     font-style: normal;
     font-size: 50px;
-    color: lightpink;
+    color: green;
 }
 
 .game-board {
@@ -23,7 +23,7 @@ h1 {
 }
 
 .cell {
-    background-color: lightpink;
+    background-color: #EEEEEE;
     font-size: 40px;
     display: flex;
     justify-content: center;
@@ -42,9 +42,12 @@ h1 {
 #button {
     background-color: lightgray;
     color: #000000;
-    margin: 40px;
-    padding: 10px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 20px;
+    padding: 15px;
+    border-radius: 80px;
+    background-color: yellow;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 15px;
 }
 
 .green {
@@ -57,4 +60,10 @@ h1 {
 
 .gray {
     background-color: gray;
+}
+
+#alert {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 0px;
+    margin-bottom: 0px;
 }
