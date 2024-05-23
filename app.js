@@ -23,13 +23,15 @@
 
 import { wordList } from './words.js';
 
-// Function to generate secret word
 let secretWord = getRandomWord();
+// Function to generate secret word
+
 function getRandomWord() {
     const randomWord = Math.floor(Math.random() * wordList.length);
     return wordList[randomWord].toUpperCase();
 }
 console.log(secretWord);
+
 
 
 //let maxGuesses = 6;
@@ -66,7 +68,7 @@ function handleKeyPress(e) {
     } else if (key === 'ENTER' && currentLetterIndex === 5) {
         // submit guess if complete
         submitGuess();
-    }
+    } 
 }
 
 function renderTile(rowIndex, colIndex, letter) {
@@ -78,30 +80,46 @@ function renderTile(rowIndex, colIndex, letter) {
 
 function submitGuess() {
     // combines letters in first row to a single string
+
     const currentGuess = guessesArray[currentGuessIndex].join('');
     console.log(`submitted guess: ${currentGuess}`);
-
+    const alertMessage = document.querySelector('#alert');
+    alertMessage.innerHTML = '';
     // if word is not in wordList array, display error message
     if (!wordList.includes(currentGuess.toLowerCase())) {
-        alert('Not a valid word');
+        alertMessage.innerHTML = 'Not a valid word';
+        alertMessage.style.cssText = 'color: red; text-align: center;';
         resetGuess(currentGuess);
     } else if (currentGuess === secretWord) {
-        alert('You win!');
-    } else if (wordList.includes(currentGuess.toLowerCase()) && currentGuessIndex < 6) {
         processGuess(currentGuess);
+        updateColors(Array(5).fill('green'));
+        setTimeout(()=>{
+            alertMessage.innerHTML = 'You win!';
+            alertMessage.style.cssText = 'color: red; text-align: center;';
+        }, 400);
+    } else {
+        processGuess(currentGuess);
+        if(currentGuessIndex >=5){
+            alertMessage.innerHTML = `Out of guesses. Secret word is ${secretWord}`;
+            alertMessage.style.cssText = 'color: red; text-align: center;';
+        }
         currentGuessIndex++;
-        currentLetterIndex = 0;
+        currentLetterIndex = 0; 
     }
 }
 
+//if (wordList.includes(currentGuess.toLowerCase()) && currentGuessIndex < 6)
+
 console.log(guessesArray);
+
+
 
 function processGuess(guess) {
     // separate single strings into arrays of letters
     const secretWordArray = secretWord.split('');
     const guessArray = guess.split('');
     // create a new array with 5 empty slots to be filled with 'green' 'yellow' or 'gray'
-    const feedback = Array(5).fill('');
+    let feedback = Array(5).fill('');
     // check letters using .forEach loop
     guessArray.forEach((letter, index) => {
         if (letter === secretWordArray[index]) {
@@ -143,4 +161,24 @@ function resetGuess(guess) {
         renderTile(currentGuessIndex, index, '');
     });
     currentLetterIndex = 0;
+}
+
+const newGameButton = document.querySelector('#button');
+newGameButton.addEventListener('click', resetGame);
+
+function resetGame(){
+    const alertMessage = document.querySelector('#alert');
+    guessesArray.forEach((row, rowIndex) => {
+        row.forEach((_, colIndex) => {
+            guessesArray[rowIndex][colIndex] = '';
+            const tileElement = document.querySelector(`.cell[data-row="${rowIndex}"][data-col="${colIndex}"]`);
+            tileElement.textContent = '';
+            tileElement.classList.remove('green', 'yellow', 'gray');
+        })
+    });
+     currentGuessIndex = 0;
+     currentLetterIndex = 0;
+     secretWord = getRandomWord();
+     alertMessage.innerHTML = '';
+     console.log(secretWord);
 }
