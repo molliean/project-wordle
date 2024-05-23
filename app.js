@@ -68,7 +68,7 @@ function handleKeyPress(e) {
     } else if (key === 'ENTER' && currentLetterIndex === 5) {
         // submit guess if complete
         submitGuess();
-    } 
+    }
 }
 
 function renderTile(rowIndex, colIndex, letter) {
@@ -93,25 +93,22 @@ function submitGuess() {
     } else if (currentGuess === secretWord) {
         processGuess(currentGuess);
         updateColors(Array(5).fill('green'));
-        setTimeout(()=>{
+        setTimeout(() => {
             alertMessage.innerHTML = 'You win!';
             alertMessage.style.cssText = 'color: red; text-align: center;';
         }, 400);
     } else {
         processGuess(currentGuess);
-        if(currentGuessIndex >=5){
+        if (currentGuessIndex >= 5) {
             alertMessage.innerHTML = `Out of guesses. Secret word is ${secretWord}`;
             alertMessage.style.cssText = 'color: red; text-align: center;';
         }
         currentGuessIndex++;
-        currentLetterIndex = 0; 
+        currentLetterIndex = 0;
     }
 }
 
 //if (wordList.includes(currentGuess.toLowerCase()) && currentGuessIndex < 6)
-
-console.log(guessesArray);
-
 
 
 function processGuess(guess) {
@@ -120,24 +117,27 @@ function processGuess(guess) {
     const guessArray = guess.split('');
     // create a new array with 5 empty slots to be filled with 'green' 'yellow' or 'gray'
     let feedback = Array(5).fill('');
-    // check letters using .forEach loop
+    // first pass: check for greens
     guessArray.forEach((letter, index) => {
         if (letter === secretWordArray[index]) {
             feedback[index] = 'green';
             secretWordArray[index] = null;
         }
     })
+    // second pass: check for yellows and grays
     guessArray.forEach((letter, index) => {
         if (feedback[index] === '') {
-            if (secretWordArray.includes(letter)) {
+            const secretIndex = secretWordArray.indexOf(letter);
+            if (secretIndex !== -1) {
                 feedback[index] = 'yellow';
-                secretWordArray[index] = null;
+                secretWordArray[secretIndex] = null;
             } else {
                 feedback[index] = 'gray';
             }
         }
     });
     console.log(feedback);
+    console.log(guessesArray);
     updateColors(feedback);
 };
 
@@ -166,7 +166,7 @@ function resetGuess(guess) {
 const newGameButton = document.querySelector('#button');
 newGameButton.addEventListener('click', resetGame);
 
-function resetGame(){
+function resetGame() {
     const alertMessage = document.querySelector('#alert');
     guessesArray.forEach((row, rowIndex) => {
         row.forEach((_, colIndex) => {
@@ -176,9 +176,9 @@ function resetGame(){
             tileElement.classList.remove('green', 'yellow', 'gray');
         })
     });
-     currentGuessIndex = 0;
-     currentLetterIndex = 0;
-     secretWord = getRandomWord();
-     alertMessage.innerHTML = '';
-     console.log(secretWord);
+    currentGuessIndex = 0;
+    currentLetterIndex = 0;
+    secretWord = getRandomWord();
+    alertMessage.innerHTML = '';
+    console.log(secretWord);
 }
