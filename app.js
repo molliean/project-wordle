@@ -7,14 +7,30 @@ function getRandomWord() {
     const randomWord = Math.floor(Math.random() * wordList.length);
     return wordList[randomWord].toUpperCase();
 }
-//console.log(secretWord);
+console.log(secretWord);
 
 let guessesArray = Array.from({ length: 6 }, () => Array(5).fill(''));
 let currentGuessIndex = 0;
 let currentLetterIndex = 0;
 
-document.addEventListener('keydown', handleKeyPress);
 const validLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+document.addEventListener('keydown', handleKeyPress);
+document.addEventListener('touchstart', handleKeyTouch);
+
+function handleKeyTouch(e){
+    const key = getKeyFromTouch(e.target);
+    if(key) {
+        handleKeyPress ({ key: key });
+    }
+}
+
+function getKeyFromTouch(target){
+    if(target.classList.contains('key')){
+        return target.textContent.toUpperCase();
+    } else {
+        return null; 
+    }
+}
 
 function handleKeyPress(e) {
     const key = e.key.toUpperCase();
@@ -130,3 +146,4 @@ function resetGame() {
     alertMessage.innerHTML = '';
     console.log(secretWord);
 }
+
