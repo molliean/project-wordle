@@ -7,7 +7,7 @@ function getRandomWord() {
     const randomWord = Math.floor(Math.random() * wordList.length);
     return wordList[randomWord].toUpperCase();
 }
-console.log(secretWord);
+//console.log(secretWord);
 
 let guessesArray = Array.from({ length: 6 }, () => Array(5).fill(''));
 let currentGuessIndex = 0;
