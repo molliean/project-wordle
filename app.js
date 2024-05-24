@@ -113,7 +113,7 @@ function resetGuess(guess) {
 }
 
 const newGameButton = document.querySelector('#button');
-newGameButton.addEventListener('click', ()=>{
+newGameButton.addEventListener('click', () => {
     newGameButton.blur();
     resetGame();
 });

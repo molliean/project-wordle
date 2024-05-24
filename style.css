@@ -67,3 +67,10 @@ h1 {
     padding: 0px;
     margin-bottom: 0px;
 }
+
+#instructions {
+    color: #EEEEEE;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    list-style-position: inside;
+}
