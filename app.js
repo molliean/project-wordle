@@ -15,22 +15,7 @@ let currentLetterIndex = 0;
 
 const validLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 document.addEventListener('keydown', handleKeyPress);
-document.addEventListener('touchstart', handleKeyTouch);
 
-function handleKeyTouch(e){
-    const key = getKeyFromTouch(e.target);
-    if(key) {
-        handleKeyPress ({ key: key });
-    }
-}
-
-function getKeyFromTouch(target){
-    if(target.classList.contains('key')){
-        return target.textContent.toUpperCase();
-    } else {
-        return null; 
-    }
-}
 
 function handleKeyPress(e) {
     const key = e.key.toUpperCase();
