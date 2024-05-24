@@ -56,7 +56,7 @@ The `app.js` file contains the game logic, including:
 - `resetGame()`: Resets the game state for a new game.
 
 ## Next Steps
-Additional features to enhance the game in the future include:
+Additional features to enhance the game include:
 
 - Adding a timer to show time elapsed in the game.
 - Adding an instructions box to toggle into.
