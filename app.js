@@ -112,9 +112,13 @@ function resetGuess(guess) {
 }
 
 const newGameButton = document.querySelector('#button');
-newGameButton.addEventListener('click', resetGame);
+newGameButton.addEventListener('click', ()=>{
+    newGameButton.blur();
+    resetGame();
+});
 
 function resetGame() {
+    document.activeElement.blur();
     const alertMessage = document.querySelector('#alert');
     guessesArray.forEach((row, rowIndex) => {
         row.forEach((_, colIndex) => {
