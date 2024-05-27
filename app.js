@@ -15,7 +15,17 @@ let currentLetterIndex = 0;
 
 const validLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 document.addEventListener('keydown', handleKeyPress);
+document.addEventListener('click', (e) => {
+    const clickedElement = e.target;
+        if (clickedElement.classList.contains('key')) {
+        handleOnScreenKeyPress(clickedElement);
+    }
+});
 
+function handleOnScreenKeyPress(keyElement) {
+    const key = keyElement.getAttribute('data-key');
+    handleKeyPress({ key });
+}
 
 function handleKeyPress(e) {
     const key = e.key.toUpperCase();
@@ -29,6 +39,14 @@ function handleKeyPress(e) {
         renderTile(currentGuessIndex, currentLetterIndex, '');
     } else if (key === 'ENTER' && currentLetterIndex === 5) {
         submitGuess();
+    }
+    updateKeyboardVisualState(key);
+}
+
+function updateKeyboardVisualState(key) {
+    const keyElement = document.querySelector(`.key[data-key="${key}"]`);
+    if (keyElement) {
+        keyElement.classList.add('guessed');
     }
 }
 
