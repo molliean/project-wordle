@@ -40,13 +40,19 @@ function handleKeyPress(e) {
     } else if (key === 'ENTER' && currentLetterIndex === 5) {
         submitGuess();
     }
-    updateKeyboardVisualState(key);
 }
 
-function updateKeyboardVisualState(key) {
-    const keyElement = document.querySelector(`.key[data-key="${key}"]`);
-    if (keyElement) {
-        keyElement.classList.add('guessed');
+function updateKeyboardVisualState(letter, color) {
+    const keyElement = document.querySelector(`.key[data-key="${letter}"]`);
+    if (keyElement && !keyElement.classList.contains('action')) { // Do not update 'enter' or 'backspace'
+        keyElement.classList.remove('green', 'yellow', 'gray');
+        if (color === 'green') {
+            keyElement.classList.add('green');
+        } else if (color === 'yellow') {
+            keyElement.classList.add('yellow');
+        } else if (color === 'gray') {
+            keyElement.classList.add('gray');
+        }
     }
 }
 
@@ -64,23 +70,26 @@ function submitGuess() {
         alertMessage.innerHTML = 'Not a valid word';
         alertMessage.style.cssText = 'color: red; text-align: center;';
         resetGuess(currentGuess);
-    } else if (currentGuess === secretWord) {
+    } else  {
         processGuess(currentGuess);
-        updateColors(Array(5).fill('green'));
-        setTimeout(() => {
-            alertMessage.innerHTML = 'You win!';
-            alertMessage.style.cssText = 'color: red; text-align: center;';
-        }, 400);
-    } else {
-        processGuess(currentGuess);
-        if (currentGuessIndex >= 5) {
-            alertMessage.innerHTML = `Out of guesses. Secret word is ${secretWord}`;
-            alertMessage.style.cssText = 'color: red; text-align: center;';
+        if(currentGuess === secretWord){
+            updateColors(Array(5).fill('green'));
+            setTimeout(() => {
+                alertMessage.innerHTML = 'You win!';
+                alertMessage.style.cssText = 'color: red; text-align: center;';
+            }, 400);
+        } else {
+            if (currentGuessIndex >= 5) {
+                setTimeout(() =>{
+                    alertMessage.innerHTML = `Out of guesses. Secret word is ${secretWord}`;
+                    alertMessage.style.cssText = 'color: red; text-align: center;';
+                    resetGame();
+                }, 400);
         }
         currentGuessIndex++;
         currentLetterIndex = 0;
-    }
-}
+    }  
+}}
 
 function processGuess(guess) {
     const secretWordArray = secretWord.split('');
@@ -106,6 +115,9 @@ function processGuess(guess) {
     console.log(feedback);
     console.log(guessesArray);
     updateColors(feedback);
+    guessArray.forEach((letter, index) => {
+        updateKeyboardVisualState(letter, feedback[index]);
+    });
 };
 
 function updateColors(feedback) {
@@ -152,5 +164,9 @@ function resetGame() {
     secretWord = getRandomWord();
     alertMessage.innerHTML = '';
     console.log(secretWord);
-}
 
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => {
+        key.classList.remove('green', 'yellow', 'gray', 'guessed');
+    });
+}

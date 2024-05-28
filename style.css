@@ -87,3 +87,46 @@ h1 {
     border-radius: 5px;
     margin: 2px 0px;
 }
+
+.key.green {
+    background-color: green;
+    color: white;
+}
+
+.key.yellow {
+    background-color: yellow;
+    color: black;
+}
+
+.key.gray {
+    background-color: gray;
+    color: white;
+}
+
+.key.action {
+    background-color: lightgray; /* or some other color */
+}
+
+@media (max-width: 375px) {
+    .key {
+        /* width: 35px; 
+        height: 35px;  */
+        line-height: 25px; 
+        font-size: 15px; 
+        padding: 3px 6px;
+        /* margin: 3px;  */
+    }
+
+    .cell {
+        width: 40px; 
+        height: 40px;
+        line-height: 25px;
+        font-size: 22px;
+        margin: 1px; 
+        padding: 10px;
+    }
+
+    .game-board {
+        gap: 2px;
+    }
+}
